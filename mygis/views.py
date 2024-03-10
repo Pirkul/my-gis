@@ -4,4 +4,5 @@ from django.shortcuts import render
 
 # Create your views here.
 def home(request):
-    return HttpResponse("Hello World")
+    # return HttpResponse("Hello World")
+    return render(request, 'mygis/home.html')

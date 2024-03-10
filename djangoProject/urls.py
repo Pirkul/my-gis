@@ -21,5 +21,5 @@ from mygis import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('mygis.urls.py')),
+    path('', include('mygis.urls')),
 ]
