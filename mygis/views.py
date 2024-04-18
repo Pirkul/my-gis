@@ -14,5 +14,6 @@ def home(request):
     }
     return render(request, 'mygis/home.html', context)
 
-
+def map(request):
+    return render(request, 'mygis/map.html')
 

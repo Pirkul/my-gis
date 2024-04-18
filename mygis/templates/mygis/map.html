@@ -1,0 +1,65 @@
+{% extends 'mygis/base.html' %}
+
+{% block title %}
+    Map
+{% endblock %}
+
+{% block my_map %}
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 650px;
+        width: 100%;
+      }
+    </style>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.29/esri/themes/light/main.css">
+    <script src="https://js.arcgis.com/4.29/"></script>
+
+    <script>
+      require(["esri/config", "esri/Map", "esri/layers/GraphicsLayer", "esri/views/MapView", "esri/widgets/Locate", "esri/widgets/Sketch"], function(esriConfig, Map, GraphicsLayer,  MapView, Locate, Sketch) {
+
+        esriConfig.apiKey = "YOUR_API_KEY";
+        
+        const graphicsLayer = new GraphicsLayer();
+        const map = new Map({
+          basemap: "satellite" // basemap styles service
+        });
+
+        const view = new MapView({
+          map: map,
+          center: [-118.805, 34.027], // Longitude, latitude
+          zoom: 13, // Zoom level
+          container: "viewDiv" // Div element
+        });
+
+          const locate = new Locate({
+          view: view,
+          useHeadingEnabled: false,
+          goToOverride: function(view, options) {
+            options.target.scale = 1500;
+            return view.goTo(options.target);
+          }
+        });
+        view.ui.add(locate, "top-left");
+
+          view.when(() => {
+        const sketch = new Sketch({
+          layer: graphicsLayer,
+          view: view,
+          // graphic will be selected as soon as it is created
+          creationMode: "update"
+        });
+
+        view.ui.add(sketch, "top-right");
+      });
+    });
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div id="viewDiv"></div>
+{% endblock %}
