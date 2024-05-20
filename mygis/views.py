@@ -16,4 +16,3 @@ def home(request):
 
 def map(request):
     return render(request, 'mygis/map.html')
-
